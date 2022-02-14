@@ -6,7 +6,7 @@ import (
 	"text/template"
 )
 
-//AppConfig holds th application config
+//AppConfig holds the application config
 
 type AppConfig struct {
 	UseCache      bool
