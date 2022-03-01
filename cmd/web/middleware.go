@@ -1,4 +1,4 @@
-package middleware
+package main
 
 import (
 	"github.com/justinas/nosurf"
@@ -19,5 +19,5 @@ func NoSurf(next http.Handler) http.Handler {
 
 //SessionLoad loads and saves the session on every request
 func SessionLoad(next http.Handler) http.Handler {
-	return main.Session.LoadAndSave(next)
+	return Session.LoadAndSave(next)
 }

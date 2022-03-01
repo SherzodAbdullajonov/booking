@@ -2,29 +2,30 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"time"
+
 	"github.com/SherzodAbdullajonov/booking/package/config"
 	"github.com/SherzodAbdullajonov/booking/package/handlers"
 	"github.com/SherzodAbdullajonov/booking/package/render"
 	"github.com/alexedwards/scs/v2"
-	"log"
-	"net/http"
-	"time"
 )
 
 var app config.AppConfig
-var session *scs.SessionManager
+var Session *scs.SessionManager
 
 // main is the main function of the project
 func main() {
 
 	// changes this to true in Production
 	app.InProduction = false
-	session = scs.New()
-	session.Lifetime = 24 * time.Hour
-	session.Cookie.Persist = true
-	session.Cookie.SameSite = http.SameSiteLaxMode
-	session.Cookie.Secure = app.InProduction
-	app.Session = session
+	Session = scs.New()
+	Session.Lifetime = 24 * time.Hour
+	Session.Cookie.Persist = true
+	Session.Cookie.SameSite = http.SameSiteLaxMode
+	Session.Cookie.Secure = app.InProduction
+	app.Session = Session
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Cannot create template cache", err)
@@ -42,7 +43,7 @@ func main() {
 	//_ = http.ListenAndServe(handlers.PortNumber, nil)
 	srv := &http.Server{
 		Addr:    handlers.PortNumber,
-		Handler: routes(&app),
+		Handler: Routes(&app),
 	}
 	err = srv.ListenAndServe()
 	log.Fatal(err)

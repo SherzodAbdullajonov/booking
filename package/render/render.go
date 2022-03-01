@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"github.com/SherzodAbdullajonov/booking/package/config"
 	"github.com/SherzodAbdullajonov/booking/package/modules"
+	"html/template"
 	"net/http"
 	"path/filepath"
-	"text/template"
 )
 
 var functions = template.FuncMap{}
@@ -21,8 +21,8 @@ func AddDefaultData(td *modules.TemplateData) *modules.TemplateData {
 	return td
 }
 
-// RenderTemplates renders template using tmpl/template
-func RenderTemplates(w http.ResponseWriter, tmpl string, td *modules.TemplateData) {
+// RenderTemplates renders template using html/template
+func RenderTemplates(w http.ResponseWriter, html string, td *modules.TemplateData) {
 
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -31,7 +31,7 @@ func RenderTemplates(w http.ResponseWriter, tmpl string, td *modules.TemplateDat
 		tc, _ = CreateTemplateCache()
 	}
 
-	t, ok := tc[tmpl]
+	t, ok := tc[html]
 	if !ok {
 		fmt.Println("Could not get template from template cache")
 	}
@@ -48,7 +48,7 @@ func RenderTemplates(w http.ResponseWriter, tmpl string, td *modules.TemplateDat
 //CreateTemplateCache creates a template cache as a map
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
-	pages, err := filepath.Glob("./templates/*.page.tmpl")
+	pages, err := filepath.Glob("./templates/*.page.html")
 	if err != nil {
 		return myCache, err
 	}

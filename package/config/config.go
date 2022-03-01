@@ -2,8 +2,8 @@ package config
 
 import (
 	"github.com/alexedwards/scs/v2"
+	"html/template"
 	"log"
-	"text/template"
 )
 
 //AppConfig holds the application config
